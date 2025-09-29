@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Sneaker Hub SA</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Sneaker Hub SA</a>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="products.html">PRODUCTS</a></li>
+                <li><a href="cart.html">CART</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="contact.html" class="active">CONTACT</a></li>
+            </ul>
+            <div class="search-box">
+                <input type="search" placeholder="Search sneakers...">
+                <button class="search-btn">Search</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Contact Header -->
+        <section class="section" style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white; text-align: center; padding: 4rem 2rem;">
+            <div class="container">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1rem; color: white;">Get In Touch</h1>
+                <p style="font-size: 1.3rem; opacity: 0.9;">We'd love to hear from you! Reach out with any questions, concerns, or feedback.</p>
+            </div>
+        </section>
+
+        <!-- Contact Information -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Contact Information</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <!-- Store Location -->
+                    <div class="about-card" style="text-align: center;">
+                        <div style="font-size: 3rem; color: #FF8C00; margin-bottom: 1rem;">📍</div>
+                        <h3>Visit Our Store</h3>
+                        <p style="margin-bottom: 1rem;">123 Long Street<br>Cape Town, Western Cape<br>South Africa 8001</p>
+                        <p style="font-size: 0.9rem; color: #6B4423;"><strong>Store Hours:</strong><br>
+                        Mon-Fri: 9:00 AM - 6:00 PM<br>
+                        Sat: 9:00 AM - 4:00 PM<br>
+                        Sun: 10:00 AM - 2:00 PM</p>
+                    </div>
+
+                    <!-- Phone Contact -->
+                    <div class="about-card" style="text-align: center;">
+                        <div style="font-size: 3rem; color: #FF8C00; margin-bottom: 1rem;">📞</div>
+                        <h3>Call Us</h3>
+                        <p style="margin-bottom: 1rem;">
+                            <strong>Sales:</strong> +27 21 123 4567<br>
+                            <strong>Support:</strong> +27 21 765 4321<br>
+                            <strong>WhatsApp:</strong> +27 82 123 4567
+                        </p>
+                        <p style="font-size: 0.9rem; color: #6B4423;"><strong>Call Center Hours:</strong><br>
+                        Mon-Fri: 8:00 AM - 8:00 PM<br>
+                        Sat-Sun: 9:00 AM - 5:00 PM</p>
+                    </div>
+
+                    <!-- Email Contact -->
+                    <div class="about-card" style="text-align: center;">
+                        <div style="font-size: 3rem; color: #FF8C00; margin-bottom: 1rem;">✉️</div>
+                        <h3>Email Us</h3>
+                        <p style="margin-bottom: 1rem;">
+                            <strong>General:</strong> info@sneakerhubsa.co.za<br>
+                            <strong>Sales:</strong> sales@sneakerhubsa.co.za<br>
+                            <strong>Support:</strong> support@sneakerhubsa.co.za
+                        </p>
+                        <p style="font-size: 0.9rem; color: #6B4423;">We typically respond within 24 hours during business days</p>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="about-card" style="text-align: center;">
+                        <div style="font-size: 3rem; color: #FF8C00; margin-bottom: 1rem;">📱</div>
+                        <h3>Follow Us</h3>
+                        <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+                            <a href="#" style="background: linear-gradient(45deg, #8B4513, #FF8C00); color: white; padding: 0.5rem 1rem; border-radius: 10px; text-decoration: none; font-weight: bold;">Facebook</a>
+                            <a href="#" style="background: linear-gradient(45deg, #FF8C00, #8B4513); color: white; padding: 0.5rem 1rem; border-radius: 10px; text-decoration: none; font-weight: bold;">Instagram</a>
+                        </div>
+                        <p style="font-size: 0.9rem; color: #6B4423;">Stay updated with the latest drops and exclusive offers</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form -->
+        <section class="section" style="background: #F5F5F5;">
+            <div class="container">
+                <h2 class="section-title">Send Us a Message</h2>
+                <p style="text-align: center; margin-bottom: 3rem; color: #6B4423; font-size: 1.1rem;">
+                    Have a question about a product or need help with your order? Fill out the form below and we'll get back to you as soon as possible.
+                </p>
+                
+                <form class="contact-form" action="/submit_contact" method="post">
+                    <!-- Personal Information -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number (Optional)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+27 XX XXX XXXX">
+                    </div>
+
+                    <!-- Inquiry Type -->
+                    <div class="form-group">
+                        <label for="inquiryType">Type of Inquiry *</label>
+                        <select id="inquiryType" name="inquiryType" required style="width: 100%; padding: 1.2rem; border: 2px solid #8B4513; border-radius: 15px; font-size: 1rem; background: #F5F5F5; color: #2F1B14;">
+                            <option value="">Select an option...</option>
+                            <option value="product">Product Information</option>
+                            <option value="order">Order Status</option>
+                            <option value="return">Returns & Exchanges</option>
+                            <option value="shipping">Shipping Questions</option>
+                            <option value="wholesale">Wholesale Inquiries</option>
+                            <option value="complaint">Complaint</option>
+                            <option value="compliment">Compliment</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Order Number (if applicable) -->
+                    <div class="form-group">
+                        <label for="orderNumber">Order Number (if applicable)</label>
+                        <input type="text" id="orderNumber" name="orderNumber" placeholder="e.g., SH2025-001234">
+                    </div>
+
+                    <!-- Message -->
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" rows="6" required placeholder="Tell us how we can help you..."></textarea>
+                    </div>
+
+                    <!-- Newsletter Signup -->
+                    <div style="margin-bottom: 2rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="newsletter" style="width: auto; margin: 0;">
+                            <span>Subscribe to our newsletter for exclusive offers and new arrivals</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div class="about-card">
+                        <h3>🚚 What are your shipping options?</h3>
+                        <p>We offer standard delivery (3-5 business days) for R99, express delivery (1-2 business days) for R199, and free standard shipping on orders over R2000.</p>
+                    </div>
+
+                    <div class="about-card">
+                        <h3>🔄 What is your return policy?</h3>
+                        <p>We accept returns within 30 days of purchase. Items must be unworn, in original packaging with tags attached. Return shipping is free for defective items.</p>
+                    </div>
+
+                    <div class="about-card">
+                        <h3>💳 What payment methods do you accept?</h3>
+                        <p>We accept all major credit cards, EFT, SnapScan, Zapper, and cash for in-store purchases. All online payments are secured with SSL encryption.</p>
+                    </div>
+
+                    <div class="about-card">
+                        <h3>📏 How do I know what size to order?</h3>
+                        <p>Each product page includes a detailed size guide. We recommend measuring your feet and comparing with our size charts. Contact us if you need sizing advice!</p>
+                    </div>
+
+                    <div class="about-card">
+                        <h3>🛡️ Are all sneakers 100% authentic?</h3>
+                        <p>Absolutely! Every sneaker we sell comes directly from authorized dealers and includes authenticity verification. We guarantee all products are 100% genuine.</p>
+                    </div>
+
+                    <div class="about-card">
+                        <h3>📱 Do you have a loyalty program?</h3>
+                        <p>Yes! Join our Sneaker Hub Rewards program to earn points on every purchase, get early access to new releases, and enjoy exclusive member discounts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Contact -->
+        <section class="section" style="background: linear-gradient(135deg, #FF8C00, #FFB84D); color: white;">
+            <div class="container" style="text-align: center;">
+                <h2 style="color: white; margin-bottom: 2rem;">Need Immediate Help?</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; backdrop-filter: blur(10px);">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🚨</div>
+                        <h3>Order Issues</h3>
+                        <p>Problems with your order?</p>
+                        <p style="font-weight: bold; font-size: 1.2rem;">Call: +27 21 123 4567</p>
+                    </div>
+
+                    <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; backdrop-filter: blur(10px);">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">💬</div>
+                        <h3>Live Chat</h3>
+                        <p>Chat with our team instantly</p>
+                        <button style="background: white; color: #FF8C00; border: none; padding: 0.8rem 1.5rem; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 1rem;">Start Chat</button>
+                    </div>
+
+                    <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; backdrop-filter: blur(10px);">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📲</div>
+                        <h3>WhatsApp</h3>
+                        <p>Message us directly</p>
+                        <p style="font-weight: bold; font-size: 1.2rem;">+27 82 123 4567</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Location Map Placeholder -->
+        <section class="section" style="background: #F5F5F5;">
+            <div class="container">
+                <h2 class="section-title">Find Our Store</h2>
+                <div style="background: linear-gradient(45deg, #8B4513, #FF8C00); height: 400px; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; margin-top: 2rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">📍</div>
+                        <h3 style="font-size: 2rem; margin-bottom: 1rem;">Visit Our Flagship Store</h3>
+                        <p style="font-size: 1.2rem; margin-bottom: 1rem;">123 Long Street, Cape Town</p>
+                        <p>Interactive map integration available</p>
+                        <button style="background: white; color: #8B4513; border: none; padding: 1rem 2rem; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 1rem;">Get Directions</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Sneaker Hub SA. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">We're here to help - reach out anytime!</p>
+        </div>
+    </footer>
+</body>
+</html>

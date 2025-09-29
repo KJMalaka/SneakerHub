@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Receipt - Sneaker Hub SA</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Sneaker Hub SA</a>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="products.html">PRODUCTS</a></li>
+                <li><a href="cart.html">CART</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+            </ul>
+            <div class="search-box">
+                <input type="search" placeholder="Search sneakers...">
+                <button class="search-btn">Search</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Receipt Header -->
+        <section class="section" style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white; text-align: center; padding: 4rem 2rem;">
+            <div class="container">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1rem; color: white;">Order Receipt</h1>
+                <p style="font-size: 1.3rem; opacity: 0.9;">Thank you for your purchase! Your order has been confirmed.</p>
+            </div>
+        </section>
+
+        <!-- Receipt Details -->
+        <section class="section">
+            <div class="container">
+                <div class="receipt-content" style="background: white; padding: 3rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <!-- Order Information -->
+                    <div style="border-bottom: 2px solid #8B4513; padding-bottom: 2rem; margin-bottom: 2rem;">
+                        <h2 style="color: #8B4513; margin-bottom: 1rem;">Order Details</h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div>
+                                <strong>Order Number:</strong> SH2025-001234
+                            </div>
+                            <div>
+                                <strong>Order Date:</strong> January 15, 2025
+                            </div>
+                            <div>
+                                <strong>Payment Method:</strong> Credit Card
+                            </div>
+                            <div>
+                                <strong>Status:</strong> <span style="color: #28a745; font-weight: bold;">Confirmed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Information -->
+                    <div style="border-bottom: 2px solid #8B4513; padding-bottom: 2rem; margin-bottom: 2rem;">
+                        <h2 style="color: #8B4513; margin-bottom: 1rem;">Customer Information</h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                            <div>
+                                <strong>Name:</strong> John Doe
+                            </div>
+                            <div>
+                                <strong>Email:</strong> john.doe@example.com
+                            </div>
+                            <div>
+                                <strong>Phone:</strong> +27 82 123 4567
+                            </div>
+                            <div>
+                                <strong>Shipping Address:</strong><br>
+                                123 Main Street<br>
+                                Cape Town, Western Cape<br>
+                                South Africa 8001
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Items -->
+                    <div style="border-bottom: 2px solid #8B4513; padding-bottom: 2rem; margin-bottom: 2rem;">
+                        <h2 style="color: #8B4513; margin-bottom: 1rem;">Order Items</h2>
+                        <div class="receipt-items">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: #F5F5F5;">
+                                        <th style="padding: 1rem; text-align: left;">Product</th>
+                                        <th style="padding: 1rem; text-align: center;">Quantity</th>
+                                        <th style="padding: 1rem; text-align: center;">Price</th>
+                                        <th style="padding: 1rem; text-align: center;">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+                                            <img src="images/All Star.jpg" alt="Converse All Star Classic" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                            <div>
+                                                <div class="product-name">Converse All Star Classic</div>
+                                                <div style="font-size: 0.9rem; color: #6B4423;">Black / Size 9</div>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 1rem; text-align: center;">1</td>
+                                        <td style="padding: 1rem; text-align: center;">R1,400</td>
+                                        <td style="padding: 1rem; text-align: center; font-weight: bold;">R1,400</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+                                            <img src="images/Nike Air force.jpg" alt="Nike Air Force 1" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                            <div>
+                                                <div class="product-name">Nike Air Force 1</div>
+                                                <div style="font-size: 0.9rem; color: #6B4423;">Blue / Size 10</div>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 1rem; text-align: center;">1</td>
+                                        <td style="padding: 1rem; text-align: center;">R2,000</td>
+                                        <td style="padding: 1rem; text-align: center; font-weight: bold;">R2,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div style="border-bottom: 2px solid #8B4513; padding-bottom: 2rem; margin-bottom: 2rem;">
+                        <h2 style="color: #8B4513; margin-bottom: 1rem;">Order Summary</h2>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <div style="width: 300px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Subtotal:</span>
+                                    <span>R3,400</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Shipping:</span>
+                                    <span>R99</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Tax:</span>
+                                    <span>R340</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: bold; border-top: 2px solid #8B4513; padding-top: 0.5rem;">
+                                    <span>Total:</span>
+                                    <span>R3,839</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Information -->
+                    <div style="border-bottom: 2px solid #8B4513; padding-bottom: 2rem; margin-bottom: 2rem;">
+                        <h2 style="color: #8B4513; margin-bottom: 1rem;">Shipping Information</h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                            <div>
+                                <strong>Shipping Method:</strong> Standard Delivery
+                            </div>
+                            <div>
+                                <strong>Estimated Delivery:</strong> January 20-22, 2025
+                            </div>
+                            <div>
+                                <strong>Tracking Number:</strong> SH2025001234
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div style="text-align: center;">
+                        <a href="index.html" style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: bold; margin: 0 1rem;">Continue Shopping</a>
+                        <button onclick="window.print()" style="background: #28a745; color: white; border: none; padding: 1rem 2rem; border-radius: 25px; font-weight: bold; cursor: pointer; margin: 0 1rem;">Print Receipt</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Thank You Message -->
+        <section class="section" style="background: #F5F5F5;">
+            <div class="container" style="text-align: center;">
+                <h2 style="color: #8B4513; margin-bottom: 1rem;">Thank You for Shopping with Us!</h2>
+                <p style="font-size: 1.2rem; color: #6B4423; margin-bottom: 2rem;">Your order confirmation has been sent to your email. We'll keep you updated on your order status.</p>
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                    <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #FF8C00;">📧</div>
+                        <h3>Email Confirmation</h3>
+                        <p>Check your inbox for order details</p>
+                    </div>
+                    <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #FF8C00;">🚚</div>
+                        <h3>Order Tracking</h3>
+                        <p>Track your package online</p>
+                    </div>
+                    <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #FF8C00;">💬</div>
+                        <h3>Customer Support</h3>
+                        <p>We're here to help anytime</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Sneaker Hub SA. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Thank you for choosing Sneaker Hub SA</p>
+        </div>
+    </footer>
+</body>
+</html>

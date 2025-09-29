@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Sneaker Hub SA</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Sneaker Hub SA</a>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="products.html">PRODUCTS</a></li>
+                <li><a href="cart.html" class="active">CART</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+            </ul>
+            <div class="search-box">
+                <input type="search" placeholder="Search sneakers...">
+                <button class="search-btn">Search</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Cart Header -->
+        <section class="section" style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white; text-align: center; padding: 4rem 2rem;">
+            <div class="container">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1rem; color: white;">Your Shopping Cart</h1>
+                <p style="font-size: 1.3rem; opacity: 0.9;">Review your selected sneakers and proceed to checkout</p>
+            </div>
+        </section>
+
+        <!-- Cart Empty State or Items -->
+        <section class="section">
+            <div class="container">
+                <div class="cart-content">
+                    <!-- If cart is empty -->
+                    <div class="empty-cart" style="display: none;">
+                        <div style="font-size: 6rem; margin-bottom: 1rem; color: #FF8C00;">🛒</div>
+                        <h2 style="color: #8B4513; margin-bottom: 1rem;">Your Cart is Empty</h2>
+                        <p style="font-size: 1.2rem; color: #6B4423; margin-bottom: 2rem;">No sneakers added yet. Start shopping to add items to your cart!</p>
+                        <a href="products.html" style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block;">Continue Shopping</a>
+                    </div>
+
+                    <!-- Cart Items (Hidden by default, show with JS) -->
+                    <div class="cart-items" style="display: block;">
+                        <h2 class="section-title">Cart Items</h2>
+                        <div class="cart-table">
+                            <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                <thead>
+                                    <tr style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white;">
+                                        <th style="padding: 1rem; text-align: left;">Product</th>
+                                        <th style="padding: 1rem; text-align: center;">Quantity</th>
+                                        <th style="padding: 1rem; text-align: center;">Price</th>
+                                        <th style="padding: 1rem; text-align: center;">Total</th>
+                                        <th style="padding: 1rem; text-align: center;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Example Item - Replace with dynamic content -->
+                                    <tr>
+                                        <td style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+                                            <img src="images/All Star.jpg" alt="Converse All Star Classic" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                            <div>
+                                                <div class="product-name">Converse All Star Classic</div>
+                                                <div style="font-size: 0.9rem; color: #6B4423;">Black / Size 9</div>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 1rem; text-align: center;">
+                                            <input type="number" value="1" min="1" style="width: 60px; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px; text-align: center;">
+                                        </td>
+                                        <td style="padding: 1rem; text-align: center; font-weight: bold;">R1,400</td>
+                                        <td style="padding: 1rem; text-align: center; font-weight: bold;">R1,400</td>
+                                        <td style="padding: 1rem; text-align: center;">
+                                            <button style="background: #FF8C00; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin: 0 0.25rem;">Update</button>
+                                            <button style="background: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin: 0 0.25rem;">Remove</button>
+                                        </td>
+                                    </tr>
+                                    <!-- Add more rows as needed -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Cart Summary -->
+                        <div class="cart-summary" style="background: white; padding: 2rem; border-radius: 10px; margin-top: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 1.1rem;">
+                                <span>Subtotal:</span>
+                                <span>R1,400</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 1.1rem;">
+                                <span>Shipping:</span>
+                                <span>R99</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: bold; border-top: 2px solid #8B4513; padding-top: 1rem;">
+                                <span>Total:</span>
+                                <span>R1,499</span>
+                            </div>
+                            <div style="text-align: center; margin-top: 2rem;">
+                                <a href="receipt.html" style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white; padding: 1.2rem 3rem; border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 1.1rem; display: inline-block;">Proceed to Checkout</a>
+                                <p style="margin-top: 1rem; color: #6B4423; font-size: 0.9rem;">Secure checkout with multiple payment options</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart Tips -->
+        <section class="section" style="background: #F5F5F5;">
+            <div class="container">
+                <h2 class="section-title">Cart Tips</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: center;">
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #FF8C00;">🔒</div>
+                        <h3>Secure Shopping</h3>
+                        <p>Your cart items are saved securely. You can continue shopping and return anytime.</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #FF8C00;">🚚</div>
+                        <h3>Free Shipping</h3>
+                        <p>Get free standard shipping on orders over R2000. Upgrade to express for faster delivery.</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #FF8C00;">💳</div>
+                        <h3>Easy Checkout</h3>
+                        <p>Multiple payment options including credit cards, EFT, and digital wallets for a smooth experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Sneaker Hub SA. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Your cart is always ready when you are</p>
+        </div>
+    </footer>
+
+    <script>
+        // Basic cart functionality placeholder
+        // In a real implementation, this would integrate with localStorage or a backend
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if cart has items (simulate with localStorage)
+            const cartItems = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            const emptyCart = document.querySelector('.empty-cart');
+            const cartSection = document.querySelector('.cart-items');
+
+            if (cartItems.length > 0) {
+                emptyCart.style.display = 'none';
+                cartSection.style.display = 'block';
+                // Update totals and items dynamically here
+            } else {
+                emptyCart.style.display = 'block';
+                cartSection.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
