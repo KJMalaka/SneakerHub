@@ -44,13 +44,13 @@
                         <h2 style="color: #8B4513; margin-bottom: 1rem;">Order Details</h2>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                             <div>
-                                <strong>Order Number:</strong> SH2025-001234
+                                <strong>Order Number:</strong> <span id="order-number">-</span>
                             </div>
                             <div>
-                                <strong>Order Date:</strong> January 15, 2025
+                                <strong>Order Date:</strong> <span id="order-date">-</span>
                             </div>
                             <div>
-                                <strong>Payment Method:</strong> Credit Card
+                                <strong>Payment Method:</strong> <span id="payment-method">Credit Card</span>
                             </div>
                             <div>
                                 <strong>Status:</strong> <span style="color: #28a745; font-weight: bold;">Confirmed</span>
@@ -63,19 +63,17 @@
                         <h2 style="color: #8B4513; margin-bottom: 1rem;">Customer Information</h2>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
                             <div>
-                                <strong>Name:</strong> John Doe
+                                <strong>Name:</strong> <span id="customer-name">-</span>
                             </div>
                             <div>
-                                <strong>Email:</strong> john.doe@example.com
+                                <strong>Email:</strong> <span id="customer-email">-</span>
                             </div>
                             <div>
-                                <strong>Phone:</strong> +27 82 123 4567
+                                <strong>Phone:</strong> <span id="customer-phone">-</span>
                             </div>
                             <div>
                                 <strong>Shipping Address:</strong><br>
-                                123 Main Street<br>
-                                Cape Town, Western Cape<br>
-                                South Africa 8001
+                                <span id="customer-address">-</span>
                             </div>
                         </div>
                     </div>
@@ -93,30 +91,9 @@
                                         <th style="padding: 1rem; text-align: center;">Total</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="receipt-items">
                                     <tr>
-                                        <td style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
-                                            <img src="images/All Star.jpg" alt="Converse All Star Classic" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
-                                            <div>
-                                                <div class="product-name">Converse All Star Classic</div>
-                                                <div style="font-size: 0.9rem; color: #6B4423;">Black / Size 9</div>
-                                            </div>
-                                        </td>
-                                        <td style="padding: 1rem; text-align: center;">1</td>
-                                        <td style="padding: 1rem; text-align: center;">R1,400</td>
-                                        <td style="padding: 1rem; text-align: center; font-weight: bold;">R1,400</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
-                                            <img src="images/Nike Air force.jpg" alt="Nike Air Force 1" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
-                                            <div>
-                                                <div class="product-name">Nike Air Force 1</div>
-                                                <div style="font-size: 0.9rem; color: #6B4423;">Blue / Size 10</div>
-                                            </div>
-                                        </td>
-                                        <td style="padding: 1rem; text-align: center;">1</td>
-                                        <td style="padding: 1rem; text-align: center;">R2,000</td>
-                                        <td style="padding: 1rem; text-align: center; font-weight: bold;">R2,000</td>
+                                        <td colspan="4" style="padding: 1rem; text-align: center; color: #6B4423;">Loading items...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -130,19 +107,19 @@
                             <div style="width: 300px;">
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                                     <span>Subtotal:</span>
-                                    <span>R3,400</span>
+                                    <span id="receipt-subtotal">R0</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                                     <span>Shipping:</span>
-                                    <span>R99</span>
+                                    <span id="receipt-shipping">R0</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                                     <span>Tax:</span>
-                                    <span>R340</span>
+                                    <span id="receipt-tax">R0</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: bold; border-top: 2px solid #8B4513; padding-top: 0.5rem;">
                                     <span>Total:</span>
-                                    <span>R3,839</span>
+                                    <span id="receipt-total">R0</span>
                                 </div>
                             </div>
                         </div>
@@ -153,13 +130,13 @@
                         <h2 style="color: #8B4513; margin-bottom: 1rem;">Shipping Information</h2>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
                             <div>
-                                <strong>Shipping Method:</strong> Standard Delivery
+                                <strong>Shipping Method:</strong> <span id="shipping-method">-</span>
                             </div>
                             <div>
-                                <strong>Estimated Delivery:</strong> January 20-22, 2025
+                                <strong>Estimated Delivery:</strong> <span id="estimated-delivery">-</span>
                             </div>
                             <div>
-                                <strong>Tracking Number:</strong> SH2025001234
+                                <strong>Tracking Number:</strong> <span id="tracking-number">-</span>
                             </div>
                         </div>
                     </div>
@@ -202,9 +179,88 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2023 Sneaker Hub SA. All rights reserved.</p>
+            <p>&copy; 2025 Sneaker Hub SA. All rights reserved.</p>
             <p style="margin-top: 0.5rem; opacity: 0.8;">Thank you for choosing Sneaker Hub SA</p>
         </div>
     </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/mobile-nav.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get orderId from URL parameter
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('orderId');
+
+            if (!orderId) {
+                alert('No order found');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Load order from localStorage
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const order = orders.find(o => o.orderId === orderId);
+
+            if (!order) {
+                alert('Order not found');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Populate order details
+            document.getElementById('order-number').textContent = order.orderId;
+            document.getElementById('order-date').textContent = order.createdAt;
+            document.getElementById('customer-name').textContent = order.customer.fullName;
+            document.getElementById('customer-email').textContent = order.customer.email;
+            document.getElementById('customer-phone').textContent = order.customer.phone;
+            document.getElementById('customer-address').innerHTML = 
+                `${order.customer.address.street}<br>${order.customer.address.city}, ${order.customer.address.postal}`;
+
+            // Populate order items
+            const itemsContainer = document.getElementById('receipt-items');
+            itemsContainer.innerHTML = order.items.map(item => `
+                <tr>
+                    <td style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+                        <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                        <div>
+                            <div class="product-name">${item.name}</div>
+                            <div style="font-size: 0.9rem; color: #6B4423;">${item.color} / Size ${item.size}</div>
+                        </div>
+                    </td>
+                    <td style="padding: 1rem; text-align: center;">${item.quantity}</td>
+                    <td style="padding: 1rem; text-align: center;">R${item.price.toLocaleString()}</td>
+                    <td style="padding: 1rem; text-align: center; font-weight: bold;">R${(item.price * item.quantity).toLocaleString()}</td>
+                </tr>
+            `).join('');
+
+            // Populate totals
+            document.getElementById('receipt-subtotal').textContent = 'R' + order.totals.subtotal.toLocaleString();
+            document.getElementById('receipt-shipping').textContent = 'R' + order.totals.shipping.toLocaleString();
+            document.getElementById('receipt-tax').textContent = 'R' + order.totals.tax.toLocaleString();
+            document.getElementById('receipt-total').textContent = 'R' + order.totals.total.toLocaleString();
+
+            // Populate shipping info
+            const shippingMethods = {
+                standard: 'Standard Shipping (5-7 business days)',
+                express: 'Express Shipping (2-3 business days)',
+                overnight: 'Overnight Shipping (Next business day)'
+            };
+            document.getElementById('shipping-method').textContent = shippingMethods[order.shippingMethod] || order.shippingMethod;
+            
+            // Calculate estimated delivery
+            const deliveryDays = {
+                standard: 7,
+                express: 3,
+                overnight: 1
+            };
+            const deliveryDate = new Date();
+            deliveryDate.setDate(deliveryDate.getDate() + (deliveryDays[order.shippingMethod] || 7));
+            document.getElementById('estimated-delivery').textContent = deliveryDate.toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            // Tracking number
+            document.getElementById('tracking-number').textContent = order.orderId.replace('ORD-', 'TRK');
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Sneaker Hub SA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .checkout-wrapper {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+
+        .checkout-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .checkout-form h2 {
+            color: #8B4513;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #FF8C00;
+            padding-bottom: 0.5rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #6B4423;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #FF8C00;
+            box-shadow: 0 0 5px rgba(255,140,0,0.3);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .shipping-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .shipping-option {
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .shipping-option:hover {
+            border-color: #FF8C00;
+            background: #FFF5F0;
+        }
+
+        .shipping-option input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        .shipping-option.selected {
+            border-color: #FF8C00;
+            background: #FFF5F0;
+        }
+
+        .order-summary {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .order-summary h3 {
+            color: #8B4513;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #FF8C00;
+            padding-bottom: 0.5rem;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .order-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .order-item-details {
+            flex: 1;
+        }
+
+        .order-item-details .product-name {
+            font-weight: bold;
+            color: #8B4513;
+        }
+
+        .order-item-details .product-quantity {
+            font-size: 0.9rem;
+            color: #6B4423;
+        }
+
+        .order-item-details .product-price {
+            color: #FF8C00;
+            font-weight: bold;
+        }
+
+        .summary-total {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #FF8C00;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #6B4423;
+        }
+
+        .summary-line.total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #8B4513;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #8B4513, #FF8C00);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: transform 0.2s;
+        }
+
+        .checkout-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .checkout-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.loading {
+            background: #cce5ff;
+            color: #004085;
+            border: 1px solid #b8daff;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Sneaker Hub SA</a>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="products.html">PRODUCTS</a></li>
+                <li><a href="cart.html">CART</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+            </ul>
+            <div class="search-box">
+                <input type="search" placeholder="Search sneakers...">
+                <button class="search-btn">Search</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Checkout Header -->
+        <section class="section" style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white; text-align: center; padding: 3rem 2rem;">
+            <div class="container">
+                <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: white;">Checkout</h1>
+                <p style="font-size: 1.1rem; opacity: 0.9;">Complete your order securely</p>
+            </div>
+        </section>
+
+        <!-- Checkout Content -->
+        <section class="section" style="padding: 2rem;">
+            <div class="container">
+                <div id="error-message"></div>
+                
+                <div class="checkout-wrapper">
+                    <!-- Checkout Form -->
+                    <form id="checkout-form" class="checkout-form">
+                        <!-- Shipping Information -->
+                        <h2>Shipping Information</h2>
+                        <div class="form-section">
+                            <div class="form-group">
+                                <label for="full-name">Full Name *</label>
+                                <input type="text" id="full-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" required>
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="form-section">
+                            <div class="form-group">
+                                <label for="street">Street Address *</label>
+                                <input type="text" id="street" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">City *</label>
+                                    <input type="text" id="city" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="postal">Postal Code *</label>
+                                    <input type="text" id="postal" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Method -->
+                        <h2>Shipping Method</h2>
+                        <div class="form-section">
+                            <div class="shipping-methods">
+                                <label class="shipping-option selected" onclick="selectShipping(this, 'standard')">
+                                    <input type="radio" name="shipping" value="standard" checked>
+                                    <strong>Standard Shipping</strong> - R99
+                                    <div style="font-size: 0.85rem; color: #6B4423; margin-top: 0.25rem;">Delivery in 5-7 business days</div>
+                                </label>
+                                <label class="shipping-option" onclick="selectShipping(this, 'express')">
+                                    <input type="radio" name="shipping" value="express">
+                                    <strong>Express Shipping</strong> - R299
+                                    <div style="font-size: 0.85rem; color: #6B4423; margin-top: 0.25rem;">Delivery in 2-3 business days</div>
+                                </label>
+                                <label class="shipping-option" onclick="selectShipping(this, 'overnight')">
+                                    <input type="radio" name="shipping" value="overnight">
+                                    <strong>Overnight Shipping</strong> - R599
+                                    <div style="font-size: 0.85rem; color: #6B4423; margin-top: 0.25rem;">Delivery next business day</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Payment Info (Simplified) -->
+                        <h2>Payment Information</h2>
+                        <div class="form-section">
+                            <div class="form-group">
+                                <label for="card-name">Name on Card *</label>
+                                <input type="text" id="card-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="card-number">Card Number *</label>
+                                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required maxlength="19">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="card-expiry">Expiry Date *</label>
+                                    <input type="text" id="card-expiry" placeholder="MM/YY" required maxlength="5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-cvv">CVV *</label>
+                                    <input type="text" id="card-cvv" placeholder="123" required maxlength="4">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Order Summary -->
+                    <div class="order-summary" id="order-summary">
+                        <h3>Order Summary</h3>
+                        <div id="order-items"></div>
+                        <div class="summary-total">
+                            <div class="summary-line">
+                                <span>Subtotal:</span>
+                                <span id="subtotal-amount">R0</span>
+                            </div>
+                            <div class="summary-line">
+                                <span>Shipping:</span>
+                                <span id="shipping-amount">R99</span>
+                            </div>
+                            <div class="summary-line">
+                                <span>Tax (10%):</span>
+                                <span id="tax-amount">R0</span>
+                            </div>
+                            <div class="summary-line total">
+                                <span>Total:</span>
+                                <span id="total-amount">R0</span>
+                            </div>
+                        </div>
+                        <button type="submit" form="checkout-form" class="checkout-btn" id="place-order-btn">Place Order</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Sneaker Hub SA. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Secure checkout powered by industry-standard encryption</p>
+        </div>
+    </footer>
+
+    <script src="js/cart.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/mobile-nav.js"></script>
+    <script src="https://cdn.emailjs.com/sdk/3.8.0/email.min.js"></script>
+    <script>
+        let currentShippingCost = 99;
+        const shippingCosts = {
+            standard: 99,
+            express: 299,
+            overnight: 599
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Protect checkout
+            if (!isUserLoggedIn()) {
+                localStorage.setItem('redirect-to-checkout', 'true');
+                window.location.href = 'auth.html';
+                return;
+            }
+
+            // Pop user info into form
+            const user = getLoggedInUser();
+            document.getElementById('full-name').value = user.fullName || '';
+            document.getElementById('email').value = user.email || '';
+
+            // Load order items
+            loadOrderSummary();
+        });
+
+        function loadOrderSummary() {
+            const cart = getCart();
+            const itemsContainer = document.getElementById('order-items');
+            
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = '<p style="color: #6B4423; text-align: center;">Your cart is empty</p>';
+                return;
+            }
+
+            itemsContainer.innerHTML = cart.map(item => `
+                <div class="order-item">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="order-item-details">
+                        <div class="product-name">${item.name}</div>
+                        <div class="product-quantity">Qty: ${item.quantity}</div>
+                        <div class="product-price">R${(item.price * item.quantity).toLocaleString()}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            updateOrderTotal();
+        }
+
+        function selectShipping(element, type) {
+            // Remove previous selection
+            document.querySelectorAll('.shipping-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selection to clicked element
+            element.classList.add('selected');
+            element.querySelector('input[type="radio"]').checked = true;
+            
+            currentShippingCost = shippingCosts[type];
+            updateOrderTotal();
+        }
+
+        function updateOrderTotal() {
+            const cart = getCart();
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.10;
+            const total = subtotal + currentShippingCost + tax;
+
+            document.getElementById('subtotal-amount').textContent = 'R' + subtotal.toLocaleString();
+            document.getElementById('shipping-amount').textContent = 'R' + currentShippingCost.toLocaleString();
+            document.getElementById('tax-amount').textContent = 'R' + Math.round(tax).toLocaleString();
+            document.getElementById('total-amount').textContent = 'R' + Math.round(total).toLocaleString();
+        }
+
+        // Handle form submission
+        document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('place-order-btn');
+            const errorDiv = document.getElementById('error-message');
+            
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+            errorDiv.innerHTML = '<div class="message loading">Processing your order...</div>';
+
+            try {
+                // Collect form data
+                const cart = getCart();
+                if (cart.length === 0) {
+                    throw new Error('Your cart is empty');
+                }
+
+                const user = getLoggedInUser();
+                const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                const shipping = currentShippingCost;
+                const tax = Math.round(subtotal * 0.10);
+                const total = subtotal + shipping + tax;
+
+                const orderData = {
+                    orderId: 'ORD-' + Date.now(),
+                    createdAt: new Date().toLocaleString('en-ZA'),
+                    customer: {
+                        fullName: document.getElementById('full-name').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        address: {
+                            street: document.getElementById('street').value,
+                            city: document.getElementById('city').value,
+                            postal: document.getElementById('postal').value
+                        }
+                    },
+                    items: cart,
+                    totals: {
+                        subtotal,
+                        shipping,
+                        tax,
+                        total
+                    },
+                    shippingMethod: document.querySelector('input[name="shipping"]:checked').value
+                };
+
+                // Save order to localStorage
+                const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+                orders.push(orderData);
+                localStorage.setItem('orders', JSON.stringify(orders));
+
+                // Send email confirmation
+                const itemsList = cart.map(item => 
+                    `${item.name} x${item.quantity} - R${(item.price * item.quantity).toLocaleString()}`
+                ).join('\n');
+
+                const emailParams = {
+                    to_email: orderData.customer.email,
+                    order_id: orderData.orderId,
+                    customer_name: orderData.customer.fullName,
+                    delivery_address: `${orderData.customer.address.street}, ${orderData.customer.address.city}, ${orderData.customer.address.postal}`,
+                    order_items: itemsList,
+                    subtotal: `R${subtotal.toLocaleString()}`,
+                    shipping: `R${shipping.toLocaleString()}`,
+                    tax: `R${tax.toLocaleString()}`,
+                    total: `R${total.toLocaleString()}`,
+                    shipping_method: orderData.shippingMethod.charAt(0).toUpperCase() + orderData.shippingMethod.slice(1)
+                };
+
+                // Send via EmailJS
+                await emailjs.send('service_default', 'template_order_confirmation', emailParams);
+
+                // Clear cart
+                localStorage.removeItem('sneakerhub-cart');
+
+                errorDiv.innerHTML = '<div class="message" style="background: #d4edda; color: #155724; border: 1px solid #c3e6cb;">Order placed successfully! Confirmation sent to your email.</div>';
+                
+                setTimeout(() => {
+                    window.location.href = `receipt.html?orderId=${orderData.orderId}`;
+                }, 2000);
+
+            } catch (error) {
+                console.error('Checkout error:', error);
+                errorDiv.innerHTML = `<div class="message error">Error: ${error.message || 'Failed to process order. Please try again.'}</div>`;
+                btn.disabled = false;
+                btn.textContent = 'Place Order';
+            }
+        });
+    </script>
+</body>
+</html>

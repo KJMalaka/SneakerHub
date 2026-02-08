@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up - Sneaker Hub SA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .auth-container {
+            display: flex;
+            gap: 2rem;
+            max-width: 900px;
+            margin: 2rem auto;
+        }
+
+        .auth-form {
+            flex: 1;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .auth-form h2 {
+            color: #8B4513;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #6B4423;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #FF8C00;
+            box-shadow: 0 0 5px rgba(255,140,0,0.3);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #8B4513, #FF8C00);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #6B4423;
+        }
+
+        .toggle-form a {
+            color: #FF8C00;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .auth-form {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Sneaker Hub SA</a>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="products.html">PRODUCTS</a></li>
+                <li><a href="cart.html">CART</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+            </ul>
+            <div class="search-box">
+                <input type="search" placeholder="Search sneakers...">
+                <button class="search-btn">Search</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Auth Header -->
+        <section class="section" style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white; text-align: center; padding: 3rem 2rem;">
+            <div class="container">
+                <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: white;">Welcome to Sneaker Hub SA</h1>
+                <p style="font-size: 1.1rem; opacity: 0.9;">Create an account or sign in to continue shopping</p>
+            </div>
+        </section>
+
+        <!-- Auth Forms -->
+        <section class="section" style="background: #F5F5F5; padding: 3rem 2rem;">
+            <div class="container">
+                <div class="auth-container">
+                    <!-- Login Form -->
+                    <div class="auth-form" id="login-form-container">
+                        <h2>Sign In</h2>
+                        <div id="login-message"></div>
+                        <form id="login-form">
+                            <div class="form-group">
+                                <label for="login-email">Email Address</label>
+                                <input type="email" id="login-email" placeholder="your@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" placeholder="At least 6 characters" required>
+                            </div>
+                            <button type="submit" class="auth-btn">Sign In</button>
+                            <div class="toggle-form">
+                                Don't have an account? <a onclick="toggleForms()">Create one</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Sign Up Form -->
+                    <div class="auth-form" id="signup-form-container" style="display: none;">
+                        <h2>Create Account</h2>
+                        <div id="signup-message"></div>
+                        <form id="signup-form">
+                            <div class="form-group">
+                                <label for="signup-name">Full Name</label>
+                                <input type="text" id="signup-name" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-email">Email Address</label>
+                                <input type="email" id="signup-email" placeholder="your@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-password">Password</label>
+                                <input type="password" id="signup-password" placeholder="At least 6 characters" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-password-confirm">Confirm Password</label>
+                                <input type="password" id="signup-password-confirm" placeholder="Confirm password" required>
+                            </div>
+                            <button type="submit" class="auth-btn">Create Account</button>
+                            <div class="toggle-form">
+                                Already have an account? <a onclick="toggleForms()">Sign in</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Why Create an Account?</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: center;">
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #FF8C00;">📦</div>
+                        <h3>Easy Checkout</h3>
+                        <p>Save your information for faster checkout next time. No need to enter details every time.</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #FF8C00;">📧</div>
+                        <h3>Order Confirmation</h3>
+                        <p>Receive order confirmations and tracking information directly in your email.</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #FF8C00;">🔒</div>
+                        <h3>Secure Account</h3>
+                        <p>Your personal information is protected with industry-standard security measures.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Sneaker Hub SA. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Premium sneakers for every style and occasion</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/mobile-nav.js"></script>
+    <script src="https://cdn.emailjs.com/sdk/3.8.0/email.min.js"></script>
+    <script>
+        function toggleForms() {
+            const loginForm = document.getElementById('login-form-container');
+            const signupForm = document.getElementById('signup-form-container');
+            
+            loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+            signupForm.style.display = signupForm.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Handle Login
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const messageDiv = document.getElementById('login-message');
+
+            const result = login(email, password);
+            
+            if (result.success) {
+                messageDiv.innerHTML = `<div class="message success">${result.message}</div>`;
+                setTimeout(() => {
+                    // Check if redirect is needed
+                    if (localStorage.getItem('redirect-to-checkout')) {
+                        localStorage.removeItem('redirect-to-checkout');
+                        window.location.href = 'checkout.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                }, 1500);
+            } else {
+                messageDiv.innerHTML = `<div class="message error">${result.message}</div>`;
+            }
+        });
+
+        // Handle Sign Up
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-password-confirm').value;
+            const messageDiv = document.getElementById('signup-message');
+
+            if (password !== confirmPassword) {
+                messageDiv.innerHTML = '<div class="message error">Passwords do not match</div>';
+                return;
+            }
+
+            const result = signUp(fullName, email, password);
+            
+            if (result.success) {
+                messageDiv.innerHTML = `<div class="message success">${result.message}</div>`;
+                setTimeout(() => {
+                    if (localStorage.getItem('redirect-to-checkout')) {
+                        localStorage.removeItem('redirect-to-checkout');
+                        window.location.href = 'checkout.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                }, 1500);
+            } else {
+                messageDiv.innerHTML = `<div class="message error">${result.message}</div>`;
+            }
+        });
+    </script>
+</body>
+</html>

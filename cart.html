@@ -101,7 +101,7 @@
                                 <span>R1,499</span>
                             </div>
                             <div style="text-align: center; margin-top: 2rem;">
-                                <a href="receipt.html" style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white; padding: 1.2rem 3rem; border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 1.1rem; display: inline-block;">Proceed to Checkout</a>
+                                <button id="checkout-btn" style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white; padding: 1.2rem 3rem; border-radius: 25px; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; max-width: 300px;">Proceed to Checkout</button>
                                 <p style="margin-top: 1rem; color: #6B4423; font-size: 0.9rem;">Secure checkout with multiple payment options</p>
                             </div>
                         </div>
@@ -138,29 +138,126 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2023 Sneaker Hub SA. All rights reserved.</p>
+            <p>&copy; 2025 Sneaker Hub SA. All rights reserved.</p>
             <p style="margin-top: 0.5rem; opacity: 0.8;">Your cart is always ready when you are</p>
         </div>
     </footer>
 
+    <script src="js/cart.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/mobile-nav.js"></script>
+    <script src="https://cdn.emailjs.com/sdk/3.8.0/email.min.js"></script>
     <script>
-        // Basic cart functionality placeholder
-        // In a real implementation, this would integrate with localStorage or a backend
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if cart has items (simulate with localStorage)
-            const cartItems = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
             const emptyCart = document.querySelector('.empty-cart');
             const cartSection = document.querySelector('.cart-items');
-
-            if (cartItems.length > 0) {
-                emptyCart.style.display = 'none';
-                cartSection.style.display = 'block';
-                // Update totals and items dynamically here
-            } else {
+            const cartTableBody = document.querySelector('tbody');
+            
+            // Get cart items from localStorage
+            const cart = getCart();
+            
+            if (cart.length === 0) {
                 emptyCart.style.display = 'block';
                 cartSection.style.display = 'none';
+            } else {
+                emptyCart.style.display = 'none';
+                cartSection.style.display = 'block';
+                
+                // Clear existing rows (except header)
+                cartTableBody.innerHTML = '';
+                
+                // Add cart items to table
+                cart.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.dataset.itemId = item.id;
+                    row.innerHTML = `
+                        <td style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+                            <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                            <div>
+                                <div class="product-name">${item.name}</div>
+                                <div style="font-size: 0.9rem; color: #6B4423;">${item.color} / Size ${item.size}</div>
+                            </div>
+                        </td>
+                        <td style="padding: 1rem; text-align: center;">
+                            <input type="number" value="${item.quantity}" min="1" class="quantity-input" data-item-id="${item.id}" style="width: 60px; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px; text-align: center;">
+                        </td>
+                        <td style="padding: 1rem; text-align: center; font-weight: bold;">R${item.price.toLocaleString()}</td>
+                        <td style="padding: 1rem; text-align: center; font-weight: bold;">R${(item.price * item.quantity).toLocaleString()}</td>
+                        <td style="padding: 1rem; text-align: center;">
+                            <button class="update-btn" data-item-id="${item.id}" style="background: #FF8C00; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin: 0 0.25rem;">Update</button>
+                            <button class="remove-btn" data-item-id="${item.id}" style="background: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin: 0 0.25rem;">Remove</button>
+                        </td>
+                    `;
+                    cartTableBody.appendChild(row);
+                });
+                
+                // Update totals
+                updateCartDisplay();
+                
+                // Add event listeners for update and remove buttons
+                document.querySelectorAll('.update-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const itemId = this.dataset.itemId;
+                        const quantityInput = document.querySelector(`input[data-item-id="${itemId}"]`);
+                        const newQuantity = parseInt(quantityInput.value);
+                        updateQuantity(itemId, newQuantity);
+                        location.reload();
+                    });
+                });
+                
+                document.querySelectorAll('.remove-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const itemId = this.dataset.itemId;
+                        removeFromCart(itemId);
+                        location.reload();
+                    });
+                });
+            }
+
+            // Checkout button handler
+            const checkoutBtn = document.getElementById('checkout-btn');
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener('click', function() {
+                    if (getCart().length === 0) {
+                        alert('Your cart is empty');
+                        return;
+                    }
+                    
+                    // Check if user is logged in
+                    if (!isUserLoggedIn()) {
+                        localStorage.setItem('redirect-to-checkout', 'true');
+                        window.location.href = 'auth.html';
+                    } else {
+                        window.location.href = 'checkout.html';
+                    }
+                });
             }
         });
+        
+        function updateCartDisplay() {
+            const totals = calculateTotals();
+            const summaryDivs = document.querySelectorAll('.cart-summary > div:not(:last-child)');
+            
+            if (summaryDivs.length >= 3) {
+                // Update subtotal
+                const subtotalSpans = summaryDivs[0].querySelectorAll('span');
+                if (subtotalSpans.length >= 2) {
+                    subtotalSpans[1].textContent = 'R' + totals.subtotal.toLocaleString();
+                }
+                
+                // Update shipping
+                const shippingSpans = summaryDivs[1].querySelectorAll('span');
+                if (shippingSpans.length >= 2) {
+                    shippingSpans[1].textContent = 'R' + totals.shipping.toLocaleString();
+                }
+                
+                // Update total
+                const totalSpans = summaryDivs[2].querySelectorAll('span');
+                if (totalSpans.length >= 2) {
+                    totalSpans[1].textContent = 'R' + totals.total.toLocaleString();
+                }
+            }
+        }
     </script>
 </body>
 </html>
