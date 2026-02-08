@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout - Sneaker Hub SA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- SweetAlert2 for beautiful alerts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- EmailJS for sending emails -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        .checkout-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .checkout-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            color: #8B4513;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #FF8C00;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-field {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #2F1B14;
+        }
+
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #F5F5F5;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            outline: none;
+            border-color: #FF8C00;
+            background: white;
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.2);
+        }
+
+        .card-input {
+            position: relative;
+        }
+
+        .card-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #F5F5F5;
+            align-items: center;
+        }
+
+        .order-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .order-item-details {
+            flex: 1;
+        }
+
+        .order-summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+        }
+
+        .order-total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-top: 2px solid #8B4513;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #8B4513, #FF8C00);
+            color: white;
+            border: none;
+            padding: 1.5rem;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .place-order-btn:hover {
+            background: linear-gradient(135deg, #FF8C00, #8B4513);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 69, 19, 0.3);
+        }
+
+        .place-order-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: #F5F5F5;
+            border-radius: 10px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #6B4423;
+        }
+
+        .demo-notice {
+            background: linear-gradient(135deg, #FFB84D, #FF8C00);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #F5F5F5;
+            border-top: 5px solid #FF8C00;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Sneaker Hub SA</a>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="products.html">PRODUCTS</a></li>
+                <li><a href="cart.html" class="active">CART</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+            </ul>
+            <div class="search-box">
+                <input type="search" placeholder="Search sneakers...">
+                <button class="search-btn">Search</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <h3 style="color: #8B4513; margin-bottom: 0.5rem;">Processing Your Order...</h3>
+            <p style="color: #6B4423;">Please wait while we confirm your payment</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Checkout Header -->
+        <section class="section" style="background: linear-gradient(135deg, #8B4513, #FF8C00); color: white; text-align: center; padding: 4rem 2rem;">
+            <div class="container">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1rem; color: white;">Secure Checkout</h1>
+                <p style="font-size: 1.3rem; opacity: 0.9;">Complete your order in just a few simple steps</p>
+            </div>
+        </section>
+
+        <!-- Demo Notice -->
+        <div class="container" style="margin-top: 2rem;">
+            <div class="demo-notice">
+                ⚠️ DEMO STORE NOTICE: This is a demonstration website. No real payments will be processed. Use test card number: 4111 1111 1111 1111
+            </div>
+        </div>
+
+        <!-- Checkout Form -->
+        <div class="checkout-container">
+            <!-- Left Side - Billing & Payment -->
+            <div>
+                <!-- Billing Information -->
+                <div class="checkout-section">
+                    <h2 class="section-header">📍 Billing Information</h2>
+                    <form id="checkoutForm">
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+27 XX XXX XXXX" required>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="address">Street Address *</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="city">City *</label>
+                                <input type="text" id="city" name="city" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="postalCode">Postal Code *</label>
+                                <input type="text" id="postalCode" name="postalCode" required>
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="province">Province *</label>
+                            <select id="province" name="province" required>
+                                <option value="">Select Province...</option>
+                                <option value="Western Cape">Western Cape</option>
+                                <option value="Eastern Cape">Eastern Cape</option>
+                                <option value="Northern Cape">Northern Cape</option>
+                                <option value="Free State">Free State</option>
+                                <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                                <option value="Gauteng">Gauteng</option>
+                                <option value="Limpopo">Limpopo</option>
+                                <option value="Mpumalanga">Mpumalanga</option>
+                                <option value="North West">North West</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Payment Information -->
+                <div class="checkout-section" style="margin-top: 2rem;">
+                    <h2 class="section-header">💳 Payment Information</h2>
+                    
+                    <div class="form-field">
+                        <label for="cardName">Cardholder Name *</label>
+                        <input type="text" id="cardName" name="cardName" placeholder="Name as it appears on card" required>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="cardNumber">Card Number *</label>
+                        <div class="card-input">
+                            <input type="text" id="cardNumber" name="cardNumber" placeholder="4111 1111 1111 1111" maxlength="19" required>
+                            <span class="card-icon">💳</span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="expiryDate">Expiry Date *</label>
+                            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="cvv">CVV *</label>
+                            <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3" required>
+                        </div>
+                    </div>
+
+                    <div class="security-badge">
+                        <span style="font-size: 1.5rem;">🔒</span>
+                        <span>Your payment information is encrypted and secure</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Order Summary -->
+            <div>
+                <div class="checkout-section" style="position: sticky; top: 100px;">
+                    <h2 class="section-header">📦 Order Summary</h2>
+                    
+                    <div id="orderItems">
+                        <!-- Order items will be loaded here by JavaScript -->
+                    </div>
+
+                    <div style="margin-top: 2rem; padding-top: 1rem; border-top: 2px solid #F5F5F5;">
+                        <div class="order-summary-line">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">R0.00</span>
+                        </div>
+                        <div class="order-summary-line">
+                            <span>Shipping:</span>
+                            <span id="shipping">R99.00</span>
+                        </div>
+                        <div class="order-summary-line">
+                            <span>Tax (10%):</span>
+                            <span id="tax">R0.00</span>
+                        </div>
+                        <div class="order-summary-line order-total">
+                            <span>Total:</span>
+                            <span id="total" style="color: #FF8C00;">R0.00</span>
+                        </div>
+                    </div>
+
+                    <button type="button" class="place-order-btn" id="placeOrderBtn" onclick="processPayment()">
+                        🛒 Place Order
+                    </button>
+
+                    <div style="margin-top: 1rem; text-align: center; color: #6B4423; font-size: 0.9rem;">
+                        <p>By placing your order, you agree to our Terms & Conditions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Sneaker Hub SA. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Secure checkout powered by industry-leading encryption</p>
+        </div>
+    </footer>
+
+    <script src="js/payment.js"></script>
+</body>
+</html>
