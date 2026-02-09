@@ -2,10 +2,15 @@
 // AUTHENTICATION SYSTEM
 // ========================================
 
-// Initialize EmailJS
-(function() {
-    emailjs.init("8LGSCnVLhg71hqRSy");
-})();
+// Initialize EmailJS (delayed until SDK is loaded)
+function initializeEmailJS() {
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init("8LGSCnVLhg71hqRSy");
+    }
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', initializeEmailJS);
 
 // Get user from localStorage
 function getLoggedInUser() {

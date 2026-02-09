@@ -143,10 +143,11 @@
         </div>
     </footer>
 
+    <script src="https://cdn.emailjs.com/sdk/3.8.0/email.min.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/mobile-nav.js"></script>
-    <script src="https://cdn.emailjs.com/sdk/3.8.0/email.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const emptyCart = document.querySelector('.empty-cart');
@@ -217,14 +218,18 @@
             // Checkout button handler
             const checkoutBtn = document.getElementById('checkout-btn');
             if (checkoutBtn) {
-                checkoutBtn.addEventListener('click', function() {
-                    if (getCart().length === 0) {
-                        alert('Your cart is empty');
+                checkoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Check if cart has items
+                    const cart = getCart();
+                    if (!cart || cart.length === 0) {
+                        alert('Your cart is empty. Please add items before checking out.');
                         return;
                     }
                     
                     // Check if user is logged in
-                    if (!isUserLoggedIn()) {
+                    if (typeof isUserLoggedIn === 'undefined' || !isUserLoggedIn()) {
                         localStorage.setItem('redirect-to-checkout', 'true');
                         window.location.href = 'auth.html';
                     } else {

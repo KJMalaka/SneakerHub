@@ -378,10 +378,11 @@
         </div>
     </footer>
 
+    <script src="https://cdn.emailjs.com/sdk/3.8.0/email.min.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/mobile-nav.js"></script>
-    <script src="https://cdn.emailjs.com/sdk/3.8.0/email.min.js"></script>
     <script>
         let currentShippingCost = 99;
         const shippingCosts = {
@@ -390,22 +391,41 @@
             overnight: 599
         };
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Protect checkout
-            if (!isUserLoggedIn()) {
-                localStorage.setItem('redirect-to-checkout', 'true');
-                window.location.href = 'auth.html';
+        // Wait for all scripts and DOM to be ready
+        function initCheckout() {
+            // Check if functions exist
+            if (typeof isUserLoggedIn === 'undefined' || typeof getLoggedInUser === 'undefined' || typeof getCart === 'undefined') {
+                console.log('Waiting for scripts to load...');
+                setTimeout(initCheckout, 200);
                 return;
             }
 
-            // Pop user info into form
-            const user = getLoggedInUser();
-            document.getElementById('full-name').value = user.fullName || '';
-            document.getElementById('email').value = user.email || '';
+            try {
+                // Protect checkout
+                if (!isUserLoggedIn()) {
+                    localStorage.setItem('redirect-to-checkout', 'true');
+                    window.location.href = 'auth.html';
+                    return;
+                }
 
-            // Load order items
-            loadOrderSummary();
-        });
+                // Pop user info into form
+                const user = getLoggedInUser();
+                if (user) {
+                    document.getElementById('full-name').value = user.fullName || '';
+                    document.getElementById('email').value = user.email || '';
+                }
+
+                // Load order items
+                loadOrderSummary();
+                
+                // Initialize EmailJS
+                ensureEmailJSInit();
+            } catch (error) {
+                console.error('Checkout init error:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initCheckout);
 
         function loadOrderSummary() {
             const cart = getCart();
@@ -526,8 +546,18 @@
                     shipping_method: orderData.shippingMethod.charAt(0).toUpperCase() + orderData.shippingMethod.slice(1)
                 };
 
-                // Send via EmailJS
-                await emailjs.send('service_default', 'template_order_confirmation', emailParams);
+                // Send via EmailJS (optional - don't fail if email fails)
+                if (typeof emailjs !== 'undefined') {
+                    try {
+                        await emailjs.send('service_default', 'template_order_confirmation', emailParams);
+                        console.log('Email sent successfully');
+                    } catch (emailError) {
+                        console.warn('Email sending failed (non-critical):', emailError);
+                        // Continue with order even if email fails
+                    }
+                } else {
+                    console.warn('EmailJS not available');
+                }
 
                 // Clear cart
                 localStorage.removeItem('sneakerhub-cart');
