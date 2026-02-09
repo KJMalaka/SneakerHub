@@ -261,11 +261,21 @@
                         return;
                     }
                     
-                    const email = document.getElementById('login-email').value;
-                    const password = document.getElementById('login-password').value;
+                    const loginEmailInput = document.getElementById('login-email');
+                    const loginPasswordInput = document.getElementById('login-password');
+                    const email = loginEmailInput.value.toLowerCase().trim();
+                    const password = loginPasswordInput.value;
                     const messageDiv = document.getElementById('login-message');
+                    
+                    // Validate inputs
+                    if (!email || !password) {
+                        messageDiv.innerHTML = '<div class="message error">Please enter both email and password</div>';
+                        return;
+                    }
 
+                    console.log('Attempting login with email:', email);
                     const result = login(email, password);
+                    console.log('Login result:', result);
                     
                     if (result.success) {
                         messageDiv.innerHTML = `<div class="message success">${result.message}</div>`;
@@ -279,7 +289,19 @@
                             }
                         }, 1500);
                     } else {
-                        messageDiv.innerHTML = `<div class="message error">${result.message}</div>`;
+                        // Provide more helpful error message
+                        let errorMsg = result.message;
+                        if (result.message === 'Invalid email or password') {
+                            // Check if account exists
+                            const allUsers = JSON.parse(localStorage.getItem('sneakerhub-users') || '[]');
+                            const userExists = allUsers.some(u => u.email === email);
+                            if (!userExists) {
+                                errorMsg = 'No account found with this email. Please create an account first.';
+                            } else {
+                                errorMsg = 'Incorrect password. Please try again.';
+                            }
+                        }
+                        messageDiv.innerHTML = `<div class="message error">${errorMsg}</div>`;
                     }
                 });
             }
@@ -296,18 +318,25 @@
                         return;
                     }
                     
-                    const fullName = document.getElementById('signup-name').value;
-                    const email = document.getElementById('signup-email').value;
+                    const fullName = document.getElementById('signup-name').value.trim();
+                    const email = document.getElementById('signup-email').value.toLowerCase().trim();
                     const password = document.getElementById('signup-password').value;
                     const confirmPassword = document.getElementById('signup-password-confirm').value;
                     const messageDiv = document.getElementById('signup-message');
+
+                    if (!fullName || !email || !password || !confirmPassword) {
+                        messageDiv.innerHTML = '<div class="message error">Please fill in all fields</div>';
+                        return;
+                    }
 
                     if (password !== confirmPassword) {
                         messageDiv.innerHTML = '<div class="message error">Passwords do not match</div>';
                         return;
                     }
 
+                    console.log('Attempting signup with email:', email);
                     const result = signUp(fullName, email, password);
+                    console.log('Signup result:', result);
                     
                     if (result.success) {
                         messageDiv.innerHTML = `<div class="message success">${result.message}</div>`;

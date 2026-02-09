@@ -60,7 +60,8 @@ function signUp(fullName, email, password) {
 
     // Check if user already exists
     const allUsers = JSON.parse(localStorage.getItem('sneakerhub-users') || '[]');
-    if (allUsers.some(u => u.email === email)) {
+    const normalizedEmail = email.toLowerCase().trim();
+    if (allUsers.some(u => u.email === normalizedEmail)) {
         return { success: false, message: 'Email already registered' };
     }
 
@@ -68,7 +69,7 @@ function signUp(fullName, email, password) {
     const newUser = {
         id: Date.now(),
         fullName: fullName.trim(),
-        email: email.toLowerCase(),
+        email: normalizedEmail,
         password: btoa(password), // Simple encoding (not for production!)
         createdAt: new Date().toISOString()
     };
@@ -91,9 +92,23 @@ function login(email, password) {
     }
 
     const allUsers = JSON.parse(localStorage.getItem('sneakerhub-users') || '[]');
-    const user = allUsers.find(u => u.email === email.toLowerCase() && atob(u.password) === password);
+    const normalizedEmail = email.toLowerCase().trim();
+    
+    // Find user with matching email
+    const user = allUsers.find(u => {
+        if (u.email !== normalizedEmail) return false;
+        try {
+            const decodedPassword = atob(u.password);
+            return decodedPassword === password;
+        } catch (e) {
+            console.error('Password decoding error:', e);
+            return false;
+        }
+    });
 
     if (!user) {
+        console.warn('Login failed for email:', normalizedEmail);
+        console.warn('Available users:', allUsers.map(u => ({ email: u.email })));
         return { success: false, message: 'Invalid email or password' };
     }
 
