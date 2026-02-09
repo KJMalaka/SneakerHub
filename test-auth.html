@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Debug Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>SneakerHub Auth Debug Test</h1>
+    
+    <div class="section">
+        <h2>1. Test localStorage</h2>
+        <button onclick="testLocalStorage()">Check localStorage</button>
+        <pre id="localStorage-output"></pre>
+    </div>
+
+    <div class="section">
+        <h2>2. Test Signup</h2>
+        <button onclick="testSignup()">Test Signup</button>
+        <pre id="signup-output"></pre>
+    </div>
+
+    <div class="section">
+        <h2>3. Test Login</h2>
+        <button onclick="testLogin()">Test Login</button>
+        <pre id="login-output"></pre>
+    </div>
+
+    <div class="section">
+        <h2>4. Check All Functions</h2>
+        <button onclick="checkFunctions()">Check Functions</button>
+        <pre id="functions-output"></pre>
+    </div>
+
+    <script src="https://cdn.emailjs.com/sdk/3.8.0/email.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        function testLocalStorage() {
+            const output = document.getElementById('localStorage-output');
+            const users = localStorage.getItem('sneakerhub-users');
+            const loggedInUser = localStorage.getItem('sneakerhub-user');
+            
+            output.innerHTML = `
+Users in localStorage:
+${users ? JSON.stringify(JSON.parse(users), null, 2) : 'None'}
+
+Logged in user:
+${loggedInUser ? JSON.stringify(JSON.parse(loggedInUser), null, 2) : 'None'}
+            `;
+        }
+
+        function testSignup() {
+            const output = document.getElementById('signup-output');
+            
+            // Clear existing test user
+            const allUsers = JSON.parse(localStorage.getItem('sneakerhub-users') || '[]');
+            const filtered = allUsers.filter(u => u.email !== 'test@example.com');
+            localStorage.setItem('sneakerhub-users', JSON.stringify(filtered));
+            
+            if (typeof signUp !== 'function') {
+                output.innerHTML = '<span class="error">signUp function not found!</span>';
+                return;
+            }
+            
+            const result = signUp('Test User', 'test@example.com', 'password123');
+            
+            output.innerHTML = `
+Signup Result:
+${JSON.stringify(result, null, 2)}
+
+Users after signup:
+${JSON.stringify(JSON.parse(localStorage.getItem('sneakerhub-users') || '[]'), null, 2)}
+
+Logged in user:
+${JSON.stringify(JSON.parse(localStorage.getItem('sneakerhub-user') || 'null'), null, 2)}
+            `;
+        }
+
+        function testLogin() {
+            const output = document.getElementById('login-output');
+            
+            if (typeof login !== 'function') {
+                output.innerHTML = '<span class="error">login function not found!</span>';
+                return;
+            }
+            
+            // Clear logged in user first
+            localStorage.removeItem('sneakerhub-user');
+            
+            const result = login('test@example.com', 'password123');
+            
+            output.innerHTML = `
+Login Result:
+${JSON.stringify(result, null, 2)}
+
+All users in storage:
+${JSON.stringify(JSON.parse(localStorage.getItem('sneakerhub-users') || '[]'), null, 2)}
+
+Logged in user after login:
+${JSON.stringify(JSON.parse(localStorage.getItem('sneakerhub-user') || 'null'), null, 2)}
+
+isUserLoggedIn(): ${typeof isUserLoggedIn === 'function' ? isUserLoggedIn() : 'function not found'}
+            `;
+        }
+
+        function checkFunctions() {
+            const output = document.getElementById('functions-output');
+            const functions = [
+                'signUp', 'login', 'getLoggedInUser', 'setLoggedInUser', 
+                'isUserLoggedIn', 'logoutUser', 'initializeEmailJS'
+            ];
+            
+            let result = 'Function Status:\n';
+            functions.forEach(fn => {
+                const exists = typeof window[fn] === 'function';
+                result += `${fn}: ${exists ? '✓ Found' : '✗ NOT FOUND'}\n`;
+            });
+            
+            output.innerHTML = result;
+        }
+
+        // Auto-check functions when page loads
+        window.addEventListener('load', function() {
+            setTimeout(checkFunctions, 1000);
+        });
+    </script>
+</body>
+</html>
